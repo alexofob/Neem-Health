@@ -1,0 +1,68 @@
+.light-accent-color {
+  color: var(--light-accent-color);
+}
+.shadow-2dp {
+      @apply(--shadow-elevation-2dp);
+}
+.paper-font-display1 {
+  @apply(--paper-font-display1);
+}
+.paper-font-headline {
+  @apply(--paper-font-headline);
+}
+.paper-font-title {
+  @apply(--paper-font-title);
+  white-space: normal;
+}
+.paper-font-subhead {
+  @apply(--paper-font-subhead);
+}
+.paper-font-body2 {
+  @apply(--paper-font-body2);
+}
+.paper-font-body1 {
+  @apply(--paper-font-body1);
+}
+.paper-font-caption {
+  @apply(--paper-font-caption);
+  white-space: normal;
+}
+.paper-font-menu {
+  @apply(--paper-font-menu);
+}
+.paper-font-button {
+  @apply(--paper-font-button);
+}
+
+
+body {
+  @apply(--paper-font-common-base);
+  background-color: var(--secondary-background-color);
+}
+
+
+[condensed-title] {
+      font-weight: lighter;
+      margin-left: 30px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+app-drawer app-toolbar {
+  background: var(--dark-primary-color-darkened);
+}
+
+app-drawer .drawer-contents {
+  height: 100%;
+  overflow: auto;
+}
+
+paper-item {
+  --paper-item: {
+    cursor: pointer;
+  }
+}
+
+.view-login {
+  background-color: var(--primary-background-color);
+}

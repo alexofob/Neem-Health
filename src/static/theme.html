@@ -1,0 +1,181 @@
+<style is="custom-style"  include="app-grid-style">
+/* The :root selector lets you set document-wide overrides for particular
+ * properties.  This lets you do theming.
+ */
+:root {
+
+  /*
+   * Material Design Light background theme
+   */
+  --light-theme-background-color: #ffffff;
+  --light-theme-base-color: #000000;
+  --light-theme-text-color: var(--paper-grey-900);
+  --light-theme-secondary-color: #737373;  /* for secondary text and icons */
+  --light-theme-disabled-color: #9b9b9b;  /* disabled/hint text */
+  --light-theme-divider-color: #dbdbdb;
+
+  /*
+   * Material Design Dark background theme
+   */
+  --dark-theme-background-color: var(--paper-grey-900);
+  --dark-theme-base-color: #ffffff;
+  --dark-theme-text-color: #ffffff;
+  --dark-theme-secondary-color: #bcbcbc;  /* for secondary text and icons */
+  --dark-theme-disabled-color: #646464;  /* disabled/hint text */
+  --dark-theme-divider-color: #3c3c3c;
+
+  /*
+   * Primary and accent colors.
+   */
+  --default-primary-color: var(--paper-teal-500);
+  --light-primary-color: var(--paper-teal-100);
+  --dark-primary-color: var(--paper-teal-700);
+  --dark-primary-color-darkened: var(--paper-teal-900);
+
+  --accent-color: var(--paper-deep-orange-a200);
+  --light-accent-color: var(--paper-deep-orange-a100);
+  --dark-accent-color: var(--paper-deep-orange-a400);
+
+  --primary-text-color: var(--light-theme-text-color);
+  --dark-primary-text-color: var(--dark-theme-text-color);
+
+  --primary-background-color: var(--light-theme-background-color);
+  --secondary-background-color: var(--paper-grey-100);
+  --secondary-background-color-lightened: var(--paper-grey-50);
+  --disabled-background-color: var(--light-theme-disabled-color);
+
+  --secondary-text-color: var(--light-theme-secondary-color);
+  --disabled-text-color: var(--light-theme-disabled-color);
+  --divider-color: var(--light-theme-divider-color);
+  --error-color: var(--paper-deep-orange-a700);
+
+  --invalid-color: #ff6ef0;
+  --input-color: #919191;
+  --secondary-color: #90a4ae;
+  --ink-color: #d6d8e3;
+
+  --paper-checkbox-checked-color: var(--default-primary-color);
+  --paper-checkbox-checked-ink-color: var(--default-primary-color);
+  --paper-checkbox-unchecked-color: var(--secondary-text-color);
+  --paper-checkbox-unchecked-ink-color: var(--secondary-text-color);
+  --paper-checkbox-label-color: var(--secondary-text-color);
+  --paper-fab-background: var(--accent-color);
+  --paper-fab-disabled-background: var(--disabled-background-color);
+  --paper-fab-disabled-text: var(--disabled-text-color);
+  --paper-icon-button-disabled-text: var(--disabled-text-color);
+  --paper-input-container-color: var(--input-color);
+  --paper-input-container-focus-color: var(--default-primary-color);
+  --paper-input-container-invalid-color: var(--invalid-color);
+  --paper-input-container-input-color: var(--input-color);
+  --paper-menu-background-color: var(--primary-background-color);
+  --paper-menu-color: var(--primary-text-color);
+  --paper-menu-disabled-color: var(--disabled-background-color);
+  --paper-progress-active-color: var(--default-primary-color);
+  --paper-progress-secondary-color: var(--secondary-color);
+  --paper-radio-button-checked-color: var(--default-primary-color);
+  --paper-radio-button-checked-ink-color: var(--ink-color);
+  --paper-radio-button-unchecked-color: var(--secondary-text-color);
+  --paper-radio-button-unchecked-ink-color: var(--secondary-text-color);
+  --paper-radio-button-label-color: var(--secondary-text-color);
+  --paper-slider-knob-color: var(--default-primary-color);
+  --paper-slider-active-color: var(--default-primary-color);
+  --paper-slider-pin-color: var(--default-primary-color);
+  --paper-spinner-layer-1-color: var(--default-primary-color);
+  --paper-spinner-layer-2-color: var(--default-primary-color);
+  --paper-spinner-layer-3-color: var(--default-primary-color);
+  --paper-spinner-layer-4-color: var(--default-primary-color);
+  --paper-tabs-selection-bar-color: var(--secondary-color);
+  --paper-tab-ink: var(--secondary-color);
+  --paper-toggle-button-checked-bar-color: var(--default-primary-color);
+  --paper-toggle-button-checked-button-color: var(--default-primary-color);
+  --paper-toggle-button-checked-ink-color: var(--default-primary-color);
+  --paper-toggle-button-unchecked-bar-color: var(--secondary-text-color);
+  --paper-toggle-button-unchecked-button-color: var(--primary-background-color);
+  --paper-toggle-button-unchecked-ink-color: var(--primary-background-color);
+
+  --app-grid-columns: 2;
+  --app-grid-gutter: 10px;
+  --paper-item-icon-width: 72px;
+
+  --paper-button-flat-keyboard-focus: {
+    background-color: var(--accent-color);
+    color: white !important;
+  };
+
+  --paper-button-raised-keyboard-focus: {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+  };
+
+  --paper-button: {
+    background-color: var(--accent-color);
+    color: white !important;
+    width: 100%;
+
+  }
+
+  --paper-card-header-image-text: {
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  --paper-item-body-secondary : {
+    white-space: normal;
+  }
+}
+
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  color: #fff;
+  background-image: url(../img/tree-2jpg.jpg);
+  --app-header-background-rear-layer: {
+    background-color: var(--default-primary-color);
+    background-position: left center;
+  }
+}
+
+.big-icon {
+    --iron-icon-height: 48px;
+    --iron-icon-width: 48px;
+}
+
+[main-title] {
+      font-weight: lighter;
+      margin-left: 108px;
+    }
+
+@media (max-width: 639px) {
+
+  :root {
+      --app-grid-columns: 1;
+      --app-grid-gutter: 5px;
+  }
+
+  [main-title] {
+    margin-left: 50px;
+    font-size: 20px;
+  }
+
+  .big-icon {
+      --iron-icon-height: 32px;
+      --iron-icon-width: 32px;
+  }
+
+  .paper-font-display1 {
+    @apply(--paper-font-headline);
+  }
+
+  .paper-font-title {
+    @apply(--paper-font-subhead);
+    white-space: normal;
+  }
+
+}
+
+</style>
