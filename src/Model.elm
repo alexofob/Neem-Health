@@ -7,6 +7,9 @@ module Model
         )
 
 import RemoteData exposing (RemoteData(NotAsked), WebData)
+import Form exposing (Form)
+import Types exposing (CustomError, LoginForm)
+import Validations exposing (validateLoginForm, validatePassword)
 
 
 -- Model Types
@@ -16,6 +19,7 @@ type alias Model =
     { activePage : Page
     , user : WebData User
     , apiKey : Maybe String
+    , loginForm : Form CustomError LoginForm
     }
 
 
@@ -43,4 +47,5 @@ initialModel =
     { activePage = Login
     , user = NotAsked
     , apiKey = Nothing
+    , loginForm = Form.initial [] validateLoginForm
     }

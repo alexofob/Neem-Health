@@ -2,9 +2,10 @@ module Update exposing (update)
 
 import RemoteData exposing (RemoteData(NotAsked))
 import Model exposing (Model, Page, Page(Login, LoadingPage))
-import Msg exposing (Msg, Msg(NavigateTo))
+import Msg exposing (Msg, Msg(NavigateTo, LoginFormMsg))
 import RemoteData exposing (..)
 import String
+import Form exposing (Form)
 
 
 -- Update
@@ -44,3 +45,11 @@ update msg model =
                             Login
             in
                 { model | activePage = page_ } ! []
+
+        LoginFormMsg formMsg ->
+            case ( formMsg, Form.getOutput model.loginForm ) of
+                ( Form.Submit, Just loginForm ) ->
+                    model ! []
+
+                _ ->
+                    { model | loginForm = Form.update formMsg model.loginForm } ! []

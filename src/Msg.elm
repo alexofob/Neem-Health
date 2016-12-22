@@ -1,6 +1,7 @@
 module Msg exposing (..)
 
 import Model exposing (Page)
+import Form exposing (Form)
 
 
 -- App Messages
@@ -8,3 +9,4 @@ import Model exposing (Page)
 
 type Msg
     = NavigateTo Page
+    | LoginFormMsg Form.Msg

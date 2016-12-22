@@ -1,5 +1,24 @@
 module Types exposing (..)
 
+-- Module Types
+
+
+type alias LoginForm =
+    { email : String
+    , password : String
+    }
+
+
+type CustomError
+    = LessChars
+    | NoCapLetter
+    | NoSmallLetter
+    | NoNumber
+    | Empty
+    | PasswordsMustMatch
+
+
+
 -- App Types
 
 
