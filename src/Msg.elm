@@ -1,7 +1,6 @@
 module Msg exposing (..)
 
 import Model exposing (Page)
-import Form exposing (Form)
 
 
 -- App Messages
@@ -9,4 +8,10 @@ import Form exposing (Form)
 
 type Msg
     = NavigateTo Page
-    | LoginFormMsg Form.Msg
+    | LoginForm LoginFormMsg
+
+
+type LoginFormMsg
+    = Email String
+    | Password String
+    | SubmitLogin

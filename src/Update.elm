@@ -1,11 +1,16 @@
 module Update exposing (update)
 
 import RemoteData exposing (RemoteData(NotAsked))
-import Model exposing (Model, Page, Page(Login, LoadingPage))
-import Msg exposing (Msg, Msg(NavigateTo, LoginFormMsg))
+import Model exposing (Model, Page, Page(Login, LoadingPage), LoginFormModel)
+import Msg
+    exposing
+        ( Msg
+        , Msg(NavigateTo, LoginForm)
+        , LoginFormMsg
+        , LoginFormMsg(Email, Password, SubmitLogin)
+        )
 import RemoteData exposing (..)
 import String
-import Form exposing (Form)
 
 
 -- Update
@@ -46,10 +51,40 @@ update msg model =
             in
                 { model | activePage = page_ } ! []
 
-        LoginFormMsg formMsg ->
-            case ( formMsg, Form.getOutput model.loginForm ) of
-                ( Form.Submit, Just loginForm ) ->
-                    model ! []
+        LoginForm loginFormMsg ->
+            let
+                ( loginFormModel, loginFormCmd ) =
+                    updateLoginForm loginFormMsg model.loginForm
+            in
+                ( { model | loginForm = loginFormModel }
+                , loginFormCmd
+                )
 
-                _ ->
-                    { model | loginForm = Form.update formMsg model.loginForm } ! []
+
+updateLoginForm : LoginFormMsg -> LoginFormModel -> ( LoginFormModel, Cmd Msg )
+updateLoginForm msg model =
+    case msg of
+        Email email_ ->
+            let
+                emailField =
+                    { value = email_, isChanged = True }
+            in
+                { model
+                    | email =
+                        emailField
+                }
+                    ! [ Cmd.none ]
+
+        Password password_ ->
+            let
+                passwordField =
+                    { value = password_, isChanged = True }
+            in
+                { model
+                    | password =
+                        passwordField
+                }
+                    ! [ Cmd.none ]
+
+        SubmitLogin ->
+            model ! []

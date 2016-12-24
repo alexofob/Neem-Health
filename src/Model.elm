@@ -4,12 +4,10 @@ module Model
         , Model
         , Page(Login, Home, PageNotFound, LoadingPage)
         , User
+        , LoginFormModel
         )
 
 import RemoteData exposing (RemoteData(NotAsked), WebData)
-import Form exposing (Form)
-import Types exposing (CustomError, LoginForm)
-import Validations exposing (validateLoginForm, validatePassword)
 
 
 -- Model Types
@@ -19,7 +17,7 @@ type alias Model =
     { activePage : Page
     , user : WebData User
     , apiKey : Maybe String
-    , loginForm : Form CustomError LoginForm
+    , loginForm : LoginFormModel
     }
 
 
@@ -42,10 +40,25 @@ type alias User =
     }
 
 
+type alias LoginFormModel =
+    { email : FieldState
+    , password : FieldState
+    }
+
+
+type alias FieldState =
+    { value : String
+    , isChanged : Bool
+    }
+
+
 initialModel : Model
 initialModel =
     { activePage = Login
     , user = NotAsked
     , apiKey = Nothing
-    , loginForm = Form.initial [] validateLoginForm
+    , loginForm =
+        { email = FieldState "" False
+        , password = FieldState "" False
+        }
     }

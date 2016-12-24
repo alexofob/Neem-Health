@@ -2,15 +2,22 @@ module View.Home exposing (view)
 
 import Html exposing (Html, Attribute, text, div, node, h3, p, section, h1, footer)
 import Html.Attributes exposing (attribute, style, class, href, value)
-import Html.Events exposing (onClick)
-import Msg exposing (Msg(NavigateTo))
+import Html.Events exposing (onBlur, onInput, onClick)
+import Msg
+    exposing
+        ( Msg(NavigateTo, LoginForm)
+        , LoginFormMsg
+            ( Email
+            , Password
+            , SubmitLogin
+            )
+        )
 import Polymer.App as App
 import Polymer.Paper as Paper
-import Model exposing (Model, Page(Login))
+import Model exposing (Model, Page(Login), LoginFormModel)
 import Polymer.Attributes exposing (icon)
-import Form exposing (Form)
-import Form.Error exposing (Error)
-import Msg exposing (Msg(LoginFormMsg))
+import Regex exposing (regex, contains, find, HowMany(AtMost))
+import List
 
 
 view : Model -> Html Msg
@@ -87,86 +94,89 @@ marketingMessage =
 
 
 loginForm : Model -> Html Msg
-loginForm model =
+loginForm { loginForm } =
+    section
+        [ style
+            [ ( "padding", "5% 7%" )
+            ]
+        ]
+        [ Paper.card
+            [ attribute "heading" "Log in"
+            ]
+            [ div [ class "card-content" ]
+                [ emailInput loginForm
+                , passwordInput loginForm
+                , loginButton
+                , p [ class "paper-font-caption" ]
+                    [ text "By proceeding, I agree to the Neem Health Terms of Service." ]
+                ]
+            ]
+        ]
+
+
+emailInput : LoginFormModel -> Html Msg
+emailInput { email } =
     let
-        -- error presenter
-        emailError =
-            case email.liveError of
-                Just error ->
-                    case error of
-                        Form.Error.Empty ->
-                            "Your Email is required."
+        emailRegex =
+            "[a-zA-Z0-9\\.]+@[a-zA-Z0-9]+(\\-)?[a-zA-Z0-9]+(\\.)?[a-zA-Z0-9]{2,6}?\\.[a-zA-Z]{2,6}$"
 
-                        _ ->
-                            "Please provide a valid Email."
+        match =
+            find (AtMost 1) (regex emailRegex) email.value
 
-                Nothing ->
-                    ""
-
-        passwordError =
-            case password.liveError of
-                Just error ->
-                    case error of
-                        Form.Error.Empty ->
-                            "Your Password is required."
-
-                        _ ->
-                            "Please provide a valid Password."
-
-                Nothing ->
-                    ""
-
-        -- fields states
-        email =
-            Form.getFieldAsString "email" model.loginForm
-
-        password =
-            Form.getFieldAsBool "password" model.loginForm
+        ( errorMessage, inValid ) =
+            if (String.isEmpty email.value && email.isChanged) then
+                ( "Your email is required.", attribute "invalid" "" )
+            else if (List.isEmpty match && email.isChanged) then
+                ( "Please provide a valid email.", attribute "invalid" "" )
+            else
+                ( "", class "" )
     in
-        section
-            [ style
-                [ ( "padding", "5% 7%" )
-                ]
+        Paper.input
+            [ attribute "label" "email"
+            , value email.value
+            , onInput <| LoginForm << Email
+            , attribute "autocomplete" ""
+            , attribute "autofocus" ""
+            , inValid
+            , attribute "error-message" errorMessage
             ]
-            [ Paper.card
-                [ attribute "heading" "Log in"
+            [ iron "icon"
+                [ icon "communication:email"
+                , loginIconStyle
+                , attribute "prefix" ""
                 ]
-                [ div [ class "card-content" ]
-                    [ Paper.input
-                        [ attribute "label" "email"
-                        , value <| Maybe.withDefault "" email.value
-                        , attribute "error-message" emailError
-                        ]
-                        [ iron "icon"
-                            [ icon "communication:email"
-                            , loginIconStyle
-                            , attribute "prefix" ""
-                            ]
-                            []
-                        ]
-                    , Paper.input
-                        [ attribute "type" "password"
-                        , attribute "label" "password"
-                        , attribute "required" ""
-                        , attribute "auto-validate" ""
-                        , attribute "error-message" passwordError
-                        ]
-                        [ iron "icon"
-                            [ icon "icons:https"
-                            , loginIconStyle
-                            , attribute "prefix" ""
-                            ]
-                            []
-                        ]
-                    , Paper.button
-                        [ attribute "raised" ""
-                        , style [ ( "margin", "15px 0px" ) ]
-                        ]
-                        [ text "log in" ]
-                    , p [ class "paper-font-caption" ] [ text "By proceeding, I agree to the Neem Health Terms of Service." ]
-                    ]
-                ]
+                []
             ]
+
+
+passwordInput : LoginFormModel -> Html Msg
+passwordInput { password } =
+    Paper.input
+        [ attribute "type" "password"
+        , attribute "label" "password"
+        , value password.value
+        , onInput <| LoginForm << Password
+        , attribute "required" ""
+        , attribute "auto-validate" "true"
+        , attribute "error-message" "Your Password is required."
+        ]
+        [ iron "icon"
+            [ icon "icons:https"
+            , loginIconStyle
+            , attribute "prefix" ""
+            ]
+            []
+        ]
+
+
+loginButton : Html Msg
+loginButton =
+    Paper.button
+        [ attribute "raised" ""
+        , style [ ( "margin", "15px 0px" ) ]
+        , onClick <| LoginForm SubmitLogin
+        ]
+        [ text "log in" ]
 
 
 messageItem : String -> String -> String -> Html Msg

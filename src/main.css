@@ -16,6 +16,7 @@
 }
 .paper-font-subhead {
   @apply(--paper-font-subhead);
+  white-space: normal;
 }
 .paper-font-body2 {
   @apply(--paper-font-body2);
