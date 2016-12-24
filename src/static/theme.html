@@ -147,12 +147,17 @@ app-header {
     --iron-icon-width: 48px;
 }
 
+div.paper-font-title {
+  @apply(--paper-font-title);
+  white-space: normal;
+}
+
 [main-title] {
       font-weight: lighter;
       margin-left: 108px;
     }
 
-@media (max-width: 639px) {
+@media (max-width: 768px) {
 
   :root {
       --app-grid-columns: 1;
@@ -173,7 +178,7 @@ app-header {
     @apply(--paper-font-headline);
   }
 
-  .paper-font-title {
+  div.paper-font-title {
     @apply(--paper-font-subhead);
     white-space: normal;
   }
