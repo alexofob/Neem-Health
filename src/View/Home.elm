@@ -1,28 +1,34 @@
 module View.Home exposing (view)
 
-import Html exposing (Html, Attribute, text, div, node, h3, p, section, h1, footer)
-import Html.Attributes exposing (attribute, style, class, href, value)
+import Html exposing (Html, Attribute, text, div, node, h3, p, section, h1)
+import Html.Attributes exposing (attribute, style, class, href, value, id)
 import Msg exposing (Msg(NavigateTo))
 import Polymer.App as App
 import Polymer.Paper as Paper
-import Model exposing (Model, Page(Login))
+import Model exposing (Model)
 import Polymer.Attributes exposing (icon)
 import Form exposing (Form, InputType(Text), Msg(Input, Focus, Blur))
 import Msg exposing (Msg(LoginFormMsg))
-import View.FormInputs exposing (emailInput, passwordInput, iron)
+import View.FormInputs
+    exposing
+        ( emailInput
+        , passwordInput
+        , submitButton
+        , submittedButton
+        , iron
+        )
 
 
 view : Model -> Html Msg.Msg
 view model =
     App.headerLayout []
-        [ header
-        , body model
-        , footer [ footerStyle ] [ text "© Neem Health" ]
+        [ viewHeader
+        , viewBody model
         ]
 
 
-header : Html Msg.Msg
-header =
+viewHeader : Html Msg.Msg
+viewHeader =
     App.header
         [ attribute "reveals" ""
         , attribute "condenses" ""
@@ -48,16 +54,16 @@ header =
         ]
 
 
-body : Model -> Html Msg.Msg
-body model =
+viewBody : Model -> Html Msg.Msg
+viewBody model =
     div [ class "app-grid" ]
-        [ marketingMessage
+        [ viewMarketingMessage
         , Html.map LoginFormMsg (loginFormView model)
         ]
 
 
-marketingMessage : Html Msg.Msg
-marketingMessage =
+viewMarketingMessage : Html Msg.Msg
+viewMarketingMessage =
     section
         [ attribute "role" "contentinfo"
         , style [ ( "padding", "0% 3%" ) ]
@@ -86,7 +92,7 @@ marketingMessage =
 
 
 loginFormView : Model -> Html Form.Msg
-loginFormView model =
+loginFormView { loginForm, isSubmitted } =
     section
         [ style
             [ ( "padding", "5% 7%" )
@@ -96,13 +102,12 @@ loginFormView model =
             [ attribute "heading" "Log in"
             ]
             [ div [ class "card-content" ]
-                [ emailInput model.loginForm
-                , passwordInput model.loginForm
-                , Paper.button
-                    [ attribute "raised" ""
-                    , style [ ( "margin", "15px 0px" ) ]
-                    ]
-                    [ text "log in" ]
+                [ emailInput loginForm
+                , passwordInput loginForm
+                , if isSubmitted then
+                    submittedButton
+                  else
+                    submitButton "Log in"
                 , p [ class "paper-font-caption" ] [ text "By proceeding, I agree to the Neem Health Terms of Service." ]
                 ]
             ]
@@ -123,15 +128,4 @@ messageItem iconType messageTitle messageBody =
             [ div [ class "paper-font-title" ] [ text messageTitle ]
             , div [ attribute "secondary" "" ] [ text messageBody ]
             ]
-        ]
-
-
-footerStyle : Attribute msg
-footerStyle =
-    style
-        [ ( "height", "50px" )
-        , ( "line-height", "50px" )
-        , ( "text-align", "center" )
-        , ( "background-color", "white" )
-        , ( "font-size", "14px" )
         ]

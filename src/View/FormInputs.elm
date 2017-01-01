@@ -8,7 +8,7 @@ import Polymer.Attributes exposing (icon)
 import Form exposing (Form, InputType(Text), Msg(Input, Focus, Blur))
 import Form.Error exposing (Error)
 import Form.Field as Field exposing (Field, FieldValue(String))
-import Types exposing (LoginForm, CustomError)
+import Types exposing (LoginForm, ChangePwdForm, CustomError(..))
 
 
 {-| Untyped input, first param is `type` attribute.
@@ -59,6 +59,7 @@ emailInput loginForm =
             email
             [ attribute "label" "email"
             , attribute "error-message" emailError
+            , attribute "autocomplete" ""
             , invalid
             ]
             [ iron "icon"
@@ -104,6 +105,117 @@ passwordInput loginForm =
                 ]
                 []
             ]
+
+
+newPasswordInput : Form CustomError ChangePwdForm -> Html Form.Msg
+newPasswordInput changePwdForm =
+    let
+        password =
+            Form.getFieldAsString "newPassword" changePwdForm
+
+        ( passwordError, invalid ) =
+            case password.error of
+                Just error ->
+                    case error of
+                        Form.Error.Empty ->
+                            ( "Your Password is required.", attribute "invalid" "" )
+
+                        Form.Error.CustomError NoCapLetter ->
+                            ( "Your Password should have at least 1 capital case.", attribute "invalid" "" )
+
+                        Form.Error.CustomError NoNumber ->
+                            ( "Your Password should have at least 1 digit.", attribute "invalid" "" )
+
+                        Form.Error.CustomError NoSmallLetter ->
+                            ( "Your Password should have at least 1 lower case.", attribute "invalid" "" )
+
+                        Form.Error.CustomError LessChars ->
+                            ( "Your Password should be at least 8 characters.", attribute "invalid" "" )
+
+                        _ ->
+                            ( "Please provide your Password.", attribute "invalid" "" )
+
+                Nothing ->
+                    ( "", class "" )
+    in
+        baseInput "password"
+            String
+            Text
+            password
+            [ attribute "label" "New password"
+            , attribute "error-message" passwordError
+            , invalid
+            ]
+            [ iron "icon"
+                [ icon "icons:https"
+                , loginIconStyle
+                , attribute "suffix" ""
+                ]
+                []
+            ]
+
+
+confirmPasswordInput : Form CustomError ChangePwdForm -> Html Form.Msg
+confirmPasswordInput changePwdForm =
+    let
+        password =
+            Form.getFieldAsString "confirmPassword" changePwdForm
+
+        ( passwordError, invalid ) =
+            case password.liveError of
+                Just errorValue ->
+                    case errorValue of
+                        Form.Error.Empty ->
+                            ( "Please confirm your password.", attribute "invalid" "" )
+
+                        Form.Error.CustomError PasswordsMustMatch ->
+                            ( "Passwords do no much.", attribute "invalid" "" )
+
+                        _ ->
+                            ( "Passwords do no much.", attribute "invalid" "" )
+
+                Nothing ->
+                    ( "", class "" )
+    in
+        baseInput "password"
+            String
+            Text
+            password
+            [ attribute "label" "Confirm Password"
+            , attribute "error-message" passwordError
+            , invalid
+            ]
+            [ iron "icon"
+                [ icon "icons:https"
+                , loginIconStyle
+                , attribute "suffix" ""
+                ]
+                []
+            ]
+
+
+submitButton : String -> Html Form.Msg
+submitButton label =
+    Paper.button
+        [ attribute "raised" ""
+        , style [ ( "margin", "15px 0px" ) ]
+        , onClick Form.Submit
+        ]
+        [ text label
+        ]
+
+
+submittedButton : Html Form.Msg
+submittedButton =
+    Paper.button
+        [ attribute "disabled" ""
+        , style [ ( "margin", "15px 0px" ) ]
+        ]
+        [ Paper.spinner
+            [ attribute "active" ""
+            ]
+            []
+        ]
 
 
 iron : String -> List (Attribute msg) -> List (Html msg) -> Html msg

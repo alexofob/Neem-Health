@@ -36,6 +36,7 @@
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
+    "jwt-decode": "^2.1.0",
     "vulcanize-loader": "^2.0.1"
   }
 }

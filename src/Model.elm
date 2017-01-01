@@ -2,14 +2,12 @@ module Model
     exposing
         ( initialModel
         , Model
-        , Page(Login, Home, PageNotFound, LoadingPage)
-        , User
         )
 
 import RemoteData exposing (RemoteData(NotAsked), WebData)
 import Form exposing (Form)
-import Types exposing (CustomError, LoginForm)
-import Validations exposing (validateLoginForm, validatePassword)
+import Types exposing (CustomError, LoginForm, ChangePwdForm, Toast, User, Page(..))
+import Validations exposing (validateLoginForm, validateChangePwdForm)
 
 
 -- Model Types
@@ -20,32 +18,23 @@ type alias Model =
     , user : WebData User
     , apiKey : Maybe String
     , loginForm : Form CustomError LoginForm
-    }
-
-
-type Page
-    = Login
-    | Home
-    | PageNotFound
-    | LoadingPage
-
-
-type alias User =
-    { avatarUrl : String
-    , name : Maybe String
-    , email : String
-    , role : Maybe String
-    , company : Maybe String
-    , passwordChanged : Bool
-    , phoneNumber : Maybe String
-    , userId : String
+    , toast : Toast
+    , isSubmitted :
+        Bool
+        -- Required to show spinner after making API request
+    , dropDownOpened : Bool
+    , changePwdForm : Form CustomError ChangePwdForm
     }
 
 
 initialModel : Model
 initialModel =
-    { activePage = Login
+    { activePage = Home
     , user = NotAsked
     , apiKey = Nothing
     , loginForm = Form.initial [] validateLoginForm
+    , toast = Toast "" "" "" ""
+    , isSubmitted = False
+    , dropDownOpened = False
+    , changePwdForm = Form.initial [] validateChangePwdForm
     }

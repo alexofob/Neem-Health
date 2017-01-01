@@ -4,8 +4,11 @@ import Model exposing (Model, initialModel)
 import Router exposing (delta2url, location2messages)
 import Update exposing (update)
 import View exposing (view)
-import Msg exposing (Msg)
+import Msg exposing (Msg(..))
 import RouteUrl exposing (RouteUrlProgram)
+import RemoteData
+import Commands exposing (getUserProfile)
+import Mouse
 
 
 type alias ProgramFlags =
@@ -36,7 +39,11 @@ init programFlags =
             initialModel ! [ Cmd.none ]
 
         Just apiKey ->
-            initialModel ! [ Cmd.none ]
+            { initialModel
+                | apiKey = Just apiKey
+                , user = RemoteData.Loading
+            }
+                ! [ getUserProfile apiKey ]
 
 
 
@@ -45,4 +52,7 @@ init programFlags =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    if model.dropDownOpened then
+        Mouse.clicks (always Blur)
+    else
+        Sub.none

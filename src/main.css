@@ -34,6 +34,9 @@
 .paper-font-button {
   @apply(--paper-font-button);
 }
+.secondary-text-color {
+  color: var(--secondary-text-color);
+}
 
 
 body {
@@ -43,27 +46,63 @@ body {
 
 
 [condensed-title] {
-      font-weight: lighter;
-      margin-left: 30px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-app-drawer app-toolbar {
-  background: var(--dark-primary-color-darkened);
-}
+  font-weight: lighter;
+  margin-left: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+                      }
 
 app-drawer .drawer-contents {
   height: 100%;
   overflow: auto;
 }
 
-paper-item {
-  --paper-item: {
-    cursor: pointer;
-  }
+.menu-item {
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: var(--paper-grey-300);
 }
 
 .view-login {
   background-color: var(--primary-background-color);
+}
+
+#error-toast {
+    --paper-toast-background-color: red;
+    --paper-toast-color: white;
+  }
+
+.error-color {
+  color: var(--error-color)
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+
+.avatar-container {
+  position: relative;
+  border: 2px solid #00AA8D;
+  border-radius: 50%;
+  height: 90px;
+  padding: 2px;
+  width: 90px;
+}
+
+.avatar-container .image {
+      background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
+      background-size: contain;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+
+.center {
+    margin: auto;
+    width: 100%;
+    padding: 2%;
 }

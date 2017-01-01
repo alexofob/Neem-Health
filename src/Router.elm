@@ -1,20 +1,18 @@
-module Router exposing (delta2url, location2messages)
+module Router exposing (..)
 
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(NewEntry), UrlChange)
-import Model exposing (Model, Page(Login, Home, LoadingPage, PageNotFound))
+import Model exposing (Model)
 import Msg exposing (Msg, Msg(NavigateTo))
 import UrlParser exposing (Parser, oneOf, map, s, top, parseHash)
+import Types exposing (Page(..), Route(..))
 
 
 delta2url : Model -> Model -> Maybe UrlChange
 delta2url previous current =
     case current.activePage of
-        Login ->
-            Just <| UrlChange NewEntry "/#login"
-
         Home ->
-            Just <| UrlChange NewEntry ""
+            Just <| UrlChange NewEntry "/"
 
         LoadingPage ->
             Just <| UrlChange NewEntry "/#loading"
@@ -22,12 +20,18 @@ delta2url previous current =
         PageNotFound ->
             Just <| UrlChange NewEntry "/#404"
 
+        App Dashboard ->
+            Just <| UrlChange NewEntry "/#dashboard"
+
+        App _ ->
+            Just <| UrlChange NewEntry "/#dashboard"
+
 
 routeParser : Parser (Page -> a) a
 routeParser =
     oneOf
         [ map Home top
-        , map Login (s "login")
+        , map (App Dashboard) (s "dashboard")
         ]
 
 

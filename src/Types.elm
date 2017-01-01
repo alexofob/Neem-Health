@@ -9,6 +9,12 @@ type alias LoginForm =
     }
 
 
+type alias ChangePwdForm =
+    { newPassword : String
+    , confirmPassword : String
+    }
+
+
 type CustomError
     = LessChars
     | NoCapLetter
@@ -16,6 +22,62 @@ type CustomError
     | NoNumber
     | Empty
     | PasswordsMustMatch
+
+
+type alias Toast =
+    { text : String
+    , style : String
+    , fitBottom : String
+    , capsule : String
+    }
+
+
+type alias User =
+    { avatarUrl : String
+    , name : Maybe String
+    , email : String
+    , role : Maybe String
+    , company : Maybe String
+    , passwordChanged : Bool
+    , phoneNumber : Maybe String
+    , userId : String
+    }
+
+
+type Page
+    = Home
+    | PageNotFound
+    | LoadingPage
+    | App Route
+
+
+type Route
+    = Dashboard
+    | DrugCatalog
+    | NewDrug
+    | EditDrug DrugId
+    | ShowDrug DrugId
+    | OrderManager
+    | NewOrder
+    | EditOrder OrderId
+    | ShowOrder OrderId
+    | UserAdmin
+    | NewUser
+    | EditUser
+    | ShowUser
+    | Pharmacy
+    | NewPharmacy
+    | EditPharmacy
+    | ShowPharmacy
+    | EditProfile
+
+
+type alias DrugId =
+    String
+
+
+type alias OrderId =
+    String
 
 
 
@@ -34,3 +96,12 @@ type alias APIKey =
 
 type alias UserID =
     String
+
+
+type alias RouteItem =
+    { text : String
+    , iconName : String
+    , route : Route
+    , subMenus : List String
+    , searchPlaceholder : Maybe String
+    }
